@@ -37,9 +37,19 @@ int main() {
   std::vector<double> y_double_prime = mp::transform(x, [&](auto x) {return s.deriv(2, x);});
   mp::plot(x, y_double_prime)->line_width(2).color("green");
 
+  // Plot the derivative of the arc length
+  std::vector<double> s_prime = mp::transform(x, 
+    [&](auto x) {return std::sqrt(1+(s.deriv(1, x)*s.deriv(1, x)));
+  });
+  mp::plot(x, s_prime)->line_width(2).color("black");
+
+  // std::vector<double> y_prime_abs = mp::transform(x, [&](auto x) {return std::abs(s.deriv(1, x));});
+  // mp::plot(x, y_prime_abs)->line_width(2).color("black");
+
   mp::xlabel("x");
   mp::ylabel("y");
-  mp::legend({"Data", "Spline", "First Derivative", "Second Derivative"});
+  // mp::legend({"Data", "Spline", "First Derivative", "Second Derivative", "s'"});
+  mp::legend({"Data", "Spline f(x)", "f'(x)", "f''(x)", "s'"});
   mp::grid(true);
   mp::show();
 
